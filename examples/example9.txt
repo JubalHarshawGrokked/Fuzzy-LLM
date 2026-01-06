@@ -1,0 +1,13 @@
+Calling tool: run_fuzzy_prolog
+Args: {'program': 'speed_rating(john, 0.7).\nheight_rating(john, 0.6).\nstrong(Person, T) :- height_rating(Person, H), H >= 0.55, T is 1.0.\nstrong(Person, T) :- speed_rating(Person, S), S >= 0.55, T is 1.0.\nstrong(Person, T) :- height_rating(Person, H), speed_rating(Person, S), H < 0.55, S < 0.55, T is 0.0.', 'query': 'strong(john, T).'}
+Warning: c:/users/gbakr/appdata/local/temp/tmpfzy6yaca.pl:1:
+Warning:    Redefined static procedure speed_rating/2
+Warning:    Previously defined at c:/users/gbakr/appdata/local/temp/tmph56h1_g1.pl:1
+Warning: c:/users/gbakr/appdata/local/temp/tmpfzy6yaca.pl:2:
+Warning:    Redefined static procedure height_rating/2
+Warning:    Previously defined at c:/users/gbakr/appdata/local/temp/tmph56h1_g1.pl:2
+Execution successful.
+[INFO] Tool execution result: {'engine': 'fuzzy_swi', 'results': [{'T': 1.0}, {'T': 1.0}]}
+
+=== FINAL SUMMARY ===
+John is considered strong, as he meets the criteria with both a speed rating of 0.7 and a height rating of 0.6.
