@@ -10,11 +10,11 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # raw_context = input("Please give the context, describe facts: ")
 # raw_question = input("Please give the query in natural language: ")
 
-raw_context = """John is fast with degree of 0.7, John is tall with degree of 0.6. Person is strong if he is tall or fast with degree of 0.55."""
-raw_question = "Who is strong?"
+raw_context = """ It is raining very much, also it's freezing, whenever we have strong rain and low temperature electricity cut is highly likely!"""
+raw_question = "Will electricity shut down?"
 
-raw_context= "Dimitri is Student, Giorgi is Student!"
-raw_question="Who is student?"
+# raw_context= "Dimitri is Student, Giorgi is Student!"
+# raw_question="Who is student?"
 
 # ---- Step 1: Rewrite text ----
 clean_context = rewrite_text(raw_context)

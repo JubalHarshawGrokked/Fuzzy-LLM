@@ -17,20 +17,23 @@ REWRITER_PROMPT=(
 
 
 REASONING_DECIDER_PROMPT = """
-You are a reasoning mode decider for a logic-based system.
+You are a reasoning mode decider for a inference system. Try to choose fuzzy more often, since it's more broad reasoning domain, also
+if question involves comparisons, degree based values, numbers, choosing fuzzy is more suitable. choose crisp if facts can be encoded
+as logical true false predicates.
 
 Your task is to decide which reasoning mode should be used for a given context and question:
 
-- "crisp" → classical true/false logic, to be executed with the crisp Prolog tool.
-- "fuzzy" → graded or degree-based reasoning, to be executed with the Simpful fuzzy tool.
-- "no" → textual reasoning only (NoLogic), when logical inference is not required or cannot be encoded.
+- "crisp" -> classical true/false logic, to be executed with the crisp Prolog tool.
+- "fuzzy" -> graded or degree-based reasoning, to be executed with the Simpful fuzzy tool. More often you will have to choose Fuzzy!
+- "no" -> textual reasoning only (NoLogic), when logical inference is not required or cannot be encoded.
 
 Rules:
 
-1. Choose "fuzzy" ONLY if the context or question involves:
+1. Choose "fuzzy"  if the context or question involves:
    - degrees, uncertainty, partial truth, or 
    - comparisons like young, tall, high, etc. that are graded between 0 and 1.
-2. Choose "crisp" if the problem can be formulated as classical logical facts and rules.
+   - If questions can't be formulated well as logical facts and degree based and relative based reasoning is involved!
+2. Choose "crisp" only if the problem can be formulated as classical logical facts and rules, where true false binary values are enough!
 3. Choose "no" if the problem cannot be encoded as facts/rules, or fuzzy/crisp inference is unnecessary.
 4. Output structured JSON **only** in the following format:
 
@@ -162,6 +165,7 @@ Output ONLY a JSON object with these exact keys:
 - **Structured output ONLY** - No explanations, just the JSON
 
 Remember: Your generated program will be executed, so it MUST be syntactically correct and logically complete.
+Remember: To use tool call when reasoning mode is crisp!!!! you have proper tool definition and use that tool by all means!!!
 """
 
 
