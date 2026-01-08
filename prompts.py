@@ -16,34 +16,38 @@ REWRITER_PROMPT=(
     )
 
 
-REASONING_DECIDER_PROMPT=(
-      """
-        "You are a routing assistant for a logic-based reasoning system.\n\n"
-        "Your task is to decide which reasoning mode should be used:\n"
-        "- 'crisp' for classical true/false logic\n"
-        "- 'fuzzy' for graded or degree-based reasoning\n\n, if comparisons are involved, things that aren't absolute like young, tall and are graded between 0 and 1."
-        "- 'no' for problems that doesn't require fuzzy or crisp logic inference, only use this in cases when program can't be encoded logically with facts!"
-        "Rules:\n"
-        "- Choose 'fuzzy' ONLY if the context or question involves degrees, "
-        "uncertainty, or partial truth.\n"
-        "- Choose 'crisp' if problem can be formulated as logical facts using classic Prolog."
-        "- Otherwise Choose 'no' if Logical Inference Engine isn't required"
-        "- Make sure to return structured output: 'crisp', 'fuzzy' or 'no'; nothing additional should be returned!"
-        "-You also have structure and make sure to return structure output correctly!!!! DO NOT HALLUCINATE!"
-        "-DO NOT RETURN reasoning_mode='no' or something like that, return only single string! you will be punished if you do otherwise!\n"
+REASONING_DECIDER_PROMPT = """
+You are a reasoning mode decider for a logic-based system.
 
-        You are a reasoning decider. 
-        Decide whether the reasoning mode for the given question and context is one of:
-        - "crisp" (use crisp logic)
-        - "fuzzy" (use fuzzy logic)
-        - "no" (use textual reasoning, NoLogic)
+Your task is to decide which reasoning mode should be used for a given context and question:
 
-        **Important:** Output exactly JSON in this format and nothing else:
+- "crisp" → classical true/false logic, to be executed with the crisp Prolog tool.
+- "fuzzy" → graded or degree-based reasoning, to be executed with the Simpful fuzzy tool.
+- "no" → textual reasoning only (NoLogic), when logical inference is not required or cannot be encoded.
 
-                    {
-                "reasoning_mode": "<crisp|fuzzy|no>"
-                    } """ 
-    )
+Rules:
+
+1. Choose "fuzzy" ONLY if the context or question involves:
+   - degrees, uncertainty, partial truth, or 
+   - comparisons like young, tall, high, etc. that are graded between 0 and 1.
+2. Choose "crisp" if the problem can be formulated as classical logical facts and rules.
+3. Choose "no" if the problem cannot be encoded as facts/rules, or fuzzy/crisp inference is unnecessary.
+4. Output structured JSON **only** in the following format:
+
+{
+    "reasoning_mode": "<crisp|fuzzy|no>"
+}
+
+5. DO NOT include any extra text, explanations, or quotes.
+6. DO NOT hallucinate values or fields.
+7. Return exactly one of "crisp", "fuzzy", or "no". 
+   - Do NOT return strings like reasoning_mode="no", only the single string inside the JSON.
+
+You are a reasoning decider. 
+Your output will be parsed automatically and must comply strictly with this JSON format.
+"""
+
+
 NO_LOGIC_PROMPT=(
 """ 
 You are a reasoning assistant.
@@ -67,57 +71,9 @@ If the question involves probability, statistics, or arithmetic:
 """
 )
 
-GENERATOR_PROMPT=(
-        """
-        "You are a logic code generator.\n\n"
-        "Your task is to generate a Prolog program and a query from the given context and question.\n"
-        -"tool call requires program and query, so make sure you provide both!\n"
-        -"Program shouldn't contain any errors, everything should be defined correctly without any assumptions!\n"
-        -"Never query a predicate unless it is defined as a rule OR fully grounded for the queried variable\n"
-        -"Therefore when possible try to define general rules, since error occurs when query contains predicate that isn't defined in program!\n"
-        -"Make sure to use either fuzzy tool or crisp tool!
-        -"Generate correctly interpreted code of prolog, don't write bullshit, logic program should be logical and correct!!!\n"
-        -"if reasoning_mode is crisp you have to call crisp tool, otherwise fuzzy_tool, if no tool call is decided, you will be punished!\n"
-        "Inputs:\n"
-        "- reasoning_mode \n"
-        "- context \n"
-        "- question \n"
-        "Rules:\n"
-        "- Generate valid Prolog code (fuzzy or crisp depending on reasoning_mode)\n"
-        "- Include all facts/rules from context\n"
-        "- In the program write facts that has same predicate name together\n"
-        "- Generate exactly one query corresponding to the question\n"
-        "- Output ONLY a JSON object with keys 'prolog_program' and 'query' \n"
-        "- You have 2 tools, 1 executes crisp logic program code another fuzzy code, make sure to generate code corresponding to each tool"
-        "- After you invoke one of the tool, your generated prolog code (either fuzzy or crisp) will be executed and result after that analyzed"
-        "- Make sure code doesn't contain any error, is executable and good prolog code!
-        "This is what additions we have in fuzzy prolog if you require to generate fuzzy prolog code, they are in separate .pl file which
-        is consulted later if fuzzy inference mode is used. Make sure you incorporate this knowledge when using fuzzy inference:\n"  
-fuzzy_and(T1, T2, T) :-
-    T is min(T1, T2).
-
-fuzzy_or(T1, T2, T) :-
-    T is max(T1, T2).
-
-fuzzy_average(List, T) :-
-    sum_list(List, Sum),
-    length(List, N),
-    N > 0,
-    T is Sum / N.
-
-product(A, B, P) :- P is A * B.
-
-weighted_average(Values, Weights, T) :-
-    maplist(product, Values, Weights, Products),
-    sum_list(Products, Sum),
-    sum_list(Weights, WSum),
-    WSum > 0,
-    T is Sum / WSum.
 
 
-        """
 
-    )
 
 FINAL_PROMPT=("""
 You are a logic reasoning assistant. 
@@ -151,3 +107,118 @@ Example outputs:
 
 
 )
+
+
+
+
+CRISP_PROLOG_GENERATOR_PROMPT = """
+You are a Prolog code generator for crisp logic reasoning.
+IF REASONING MODE IS CRISP, GENERATE CRISP PROLOG PROGRAM BY ALL MEANS AND CALL CRISP_PROLOG TOOL!
+Your task is to generate a **valid Prolog program** and **query** from the given context and question.
+
+### Critical Rules:
+
+1. **Generate both program AND query** - The tool requires both components.
+
+2. **No undefined predicates** - Every predicate in the query must be:
+   - Defined as a fact in the program, OR
+   - Defined as a rule in the program
+   
+3. **Organize facts** - Group all facts of the same predicate together.
+
+4. **Define general rules** - Always provide rule definitions when possible to avoid execution errors.
+
+5. **Validate before output** - Check that every predicate used is actually defined.
+
+### Output Format:
+
+Output ONLY a JSON object with these exact keys:
+```json
+{
+    "prolog_program": "string containing the complete Prolog program",
+    "query": "string containing the single query to execute"
+}
+```
+
+### Example:
+
+**Input:**
+- Context: "John is a human. All humans are mortal."
+- Question: "Is John mortal?"
+
+**Output:**
+```json
+{
+    "prolog_program": "human(john).\\nmortal(X) :- human(X).",
+    "query": "mortal(john)"
+}
+```
+
+### Quality Requirements:
+
+- **Correctness over cleverness** - Simple, working code is better than complex code
+- **No syntax errors** - Your code will be executed immediately
+- **Complete definitions** - Include all necessary facts and rules
+- **Structured output ONLY** - No explanations, just the JSON
+
+Remember: Your generated program will be executed, so it MUST be syntactically correct and logically complete.
+"""
+
+
+FUZZY_SIMPFUL_GENERATOR_PROMPT = """
+You are a Python code generator for fuzzy logic reasoning using Simpful.
+
+Generate COMPLETE, EXECUTABLE Python code that:
+1. Import simpful with:  from simpful import *
+2. Creates a FuzzySystem
+3. Defines all linguistic variables with membership functions
+4. Adds fuzzy rules
+5. Sets input values
+6. Performs inference
+7. Prints results in a clear format
+
+### CRITICAL Simpful Syntax (from working examples):
+```python
+from simpful import *
+
+FS = FuzzySystem()
+
+# Define fuzzy sets
+S_1 = FuzzySet(function=Trapezoidal_MF(0, 0, 0.3, 0.5), term="low")
+S_2 = FuzzySet(function=Triangular_MF(0.3, 0.5, 0.7), term="medium")
+S_3 = FuzzySet(function=Trapezoidal_MF(0.5, 0.7, 1, 1), term="high")
+
+# Add linguistic variable - CRITICAL: Pass list of FuzzySets
+FS.add_linguistic_variable("speed", LinguisticVariable([S_1, S_2, S_3], universe_of_discourse=[0, 1]))
+
+# Rules with parentheses
+FS.add_rules([
+    "IF (speed IS high) THEN (output IS high)",
+    "IF (speed IS low) THEN (output IS low)"
+])
+
+# Set inputs and infer
+FS.set_variable("speed", 0.7)
+results = FS.inference()
+print(results)
+```
+
+### Requirements:
+
+1. **Complete imports** - Include all necessary Simpful imports
+2. **All variables defined** - Input AND output variables
+3. **Proper syntax**:
+   - FuzzySet(function=MF(...), term="name")
+   - LinguisticVariable([list_of_sets], universe_of_discourse=[min, max])
+   - Rules with parentheses: "IF (X IS Y) THEN (Z IS W)"
+4. **Print results** - Use print(results) or print("variable:", results['variable'])
+5. **No undefined variables** - Every variable in rules must be defined
+6. **Executable immediately** - No placeholders or TODOs
+
+### Output Format:
+
+Return ONLY the Python code, no markdown blocks, no explanations.
+Start directly with: from simpful import ...
+
+Your code will be executed as-is, so it MUST work perfectly.
+"""

@@ -1,14 +1,14 @@
 import os
 from openai import OpenAI
 import json
-from engine_tools import TOOL_DEFINITIONS,run_crisp_prolog,run_fuzzy_prolog
-from prompts import GENERATOR_PROMPT, NO_LOGIC_PROMPT
+from engine_tools import TOOL_DEFINITIONS,run_crisp_prolog,run_fuzzy_simpful
+from prompts import CRISP_PROLOG_GENERATOR_PROMPT, NO_LOGIC_PROMPT,FUZZY_SIMPFUL_GENERATOR_PROMPT
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 MAX_RETRIES = 3
 
 def inference(reasoning_mode,clean_question,clean_context):
-    system_prompt = GENERATOR_PROMPT
+    system_prompt = NO_LOGIC_PROMPT
 
     if reasoning_mode=='no':
 
@@ -28,12 +28,45 @@ def inference(reasoning_mode,clean_question,clean_context):
             )
         final_summary = response.choices[0].message.content.strip()
         return final_summary
-        
+
+
+
+
+    if reasoning_mode=='fuzzy':
+
+        system_prompt = FUZZY_SIMPFUL_GENERATOR_PROMPT
+
+        user_content = (
+        "Context:\n"
+        f"{clean_context}\n\n"
+        "Question:\n"
+        f"{clean_question}\n"
+        "Return clean SIMPFUL code that will answer this question using fuzzy inference!"
+    )
+
+
+        response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_content}
+        ],
+        temperature=0.7
+        )
+        code = response.choices[0].message.content.strip()
+        print("RUNNING FUZZY CODE!!\n",code)
+        result=run_fuzzy_simpful(code)
+
+        return result
+  # TODO: add retry loop here as well above      
+    
+    else:
+        system_prompt=CRISP_PROLOG_GENERATOR_PROMPT
 
     messages=[{"role": "system", "content": system_prompt},
-            {"role": "user", "content":f"Context: {clean_context}\nQuestion: {clean_question}\n Reasoning Mode: {reasoning_mode}"}
+            {"role": "user", "content":f"Context: {clean_context}\nQuestion: {clean_question}\n Reasoning Mode: {reasoning_mode}, if reasoning mode is crisp, call crisp_prolog tool, but by all means call tool!"}
             ]
-
+    # print(len(TOOL_DEFINITIONS1), "MY LEEENGTH!")
     for attempt in range(1, MAX_RETRIES + 1):
 
         print(f"\n=== LOGIC GENERATION ATTEMPT {attempt} ===")
@@ -42,7 +75,7 @@ def inference(reasoning_mode,clean_question,clean_context):
             model="gpt-4o-mini",
             messages=messages,
             tools=TOOL_DEFINITIONS,
-            temperature=0.4
+            temperature=0.6
         )
 
         msg = response.choices[0].message
@@ -57,10 +90,7 @@ def inference(reasoning_mode,clean_question,clean_context):
 
             print(f"Calling tool: {name}")
             print("Args:", args)
-
-            if name == "run_fuzzy_prolog":
-                result = run_fuzzy_prolog(**args)
-            elif name == "run_crisp_prolog":
+            if name == "run_crisp_prolog":
                 result = run_crisp_prolog(**args)
             else:
                 return {
@@ -79,14 +109,11 @@ def inference(reasoning_mode,clean_question,clean_context):
             # FAILURE -> feedback to LLM
             # -------------------------
             error_feedback = (
-                "The generated Prolog program failed at runtime.\n\n"
+                "The generated  program failed at runtime.\n\n"
                 f"Error:\n{result['message']}\n\n"
-                "You must fix the program and query.\n"
+                "You must fix the program\n"
                 "Ensure:\n"
-                "- All predicates used in the query are defined\n"
-                "- Predicate arities match\n"
                 "- Use correct fuzzy or crisp syntax\n"
-                "- If logic is not applicable, return NoLogic"
             )
 
             messages.append({
@@ -100,6 +127,7 @@ def inference(reasoning_mode,clean_question,clean_context):
 
         else:
             # LLM didn't call a tool
+            print("TOOL CALL NOT USED!")
             return msg.content
 
     # -------------------------

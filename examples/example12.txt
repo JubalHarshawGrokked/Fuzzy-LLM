@@ -1,0 +1,13 @@
+[INFO] Reasoning mode: crisp
+
+=== LOGIC GENERATION ATTEMPT 1 ===
+Calling tool: run_crisp_prolog
+Args: {'program': 'student(dimitri).\nstudent(giorgi).', 'query': 'student(X).'}
+Execution successful.
+[INFO] Tool execution result: {'engine': 'crisp_prolog', 'results': [{'X': 'dimitri'}, {'X': 'giorgi'}]}
+
+=== FINAL SUMMARY ===
+Both Dimitri and Giorgi are referred to as students.
+
+raw_context= "Dimitri is Student, Giorgi is Student!"
+raw_question="Who is student?"

@@ -2,47 +2,97 @@ from pyswip import Prolog
 import tempfile
 import os
 from pyswip.prolog import PrologError
+from typing import List, Dict
+import re
+import subprocess
+import sys
+import tempfile
+import os
+
+
+def run_fuzzy_simpful(code: str, timeout: int = 10):
+    """
+    Executes LLM-generated Simpful Python code in a safe subprocess.
+    
+    Args:
+        code: Complete Python code string with simpful
+        timeout: Maximum execution time in seconds
+        
+    Returns:
+        dict: {
+            "success": bool,
+            "output": str (stdout),
+            "error": str (stderr if any),
+            "results": dict (parsed results if available)
+        }
+    """
+    try:
+        # Create temporary file for the code
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
+            temp_file = f.name
+            f.write(code)
+        
+        # Execute in subprocess
+        result = subprocess.run(
+            [sys.executable, temp_file],
+            capture_output=True,
+            text=True,
+            timeout=timeout
+        )
+        
+        # Clean up
+        os.unlink(temp_file)
+        
+        stdout = result.stdout.strip()
+        stderr = result.stderr.strip()
+        
+        # Try to parse numeric results from output
+        parsed_results = {}
+        if stdout:
+            # Look for dictionary-like output or key-value pairs
+            # Example: "{'variable': 0.75}" or "variable: 0.75"
+            try:
+                # Try eval for dict output
+                if '{' in stdout and '}' in stdout:
+                    dict_match = re.search(r'\{[^}]+\}', stdout)
+                    if dict_match:
+                        parsed_results = eval(dict_match.group())
+            except:
+                # Try regex for key-value pairs
+                matches = re.findall(r'(\w+)[:=]\s*([\d.]+)', stdout)
+                parsed_results = {k: float(v) for k, v in matches}
+        
+        return {
+            "success": result.returncode == 0,
+            "output": stdout,
+            "error": stderr if stderr else None,
+            "results": parsed_results if parsed_results else None
+        }
+
+        
+    except subprocess.TimeoutExpired:
+        if os.path.exists(temp_file):
+            os.unlink(temp_file)
+        return {
+            "success": False,
+            "output": None,
+            "error": f"Execution timeout after {timeout} seconds",
+            "results": None
+        }
+    except Exception as e:
+        if os.path.exists(temp_file):
+            os.unlink(temp_file)
+        return {
+            "success": False,
+            "output": None,
+            "error": str(e),
+            "results": None
+        }
+
+
+
 
 prolog = Prolog()
-
-
-def run_fuzzy_prolog(program: str=None, query: str=None):
-    if not program or not query:
-        return {
-            "engine": "fuzzy_swi",
-            "error": "invalid_input",
-            "message": "Program or query is missing."
-        }
-
-    prolog.consult("fuzzy_core.pl")
-
-    with tempfile.NamedTemporaryFile(mode="w", suffix=".pl", delete=False) as f:
-        f.write(program)
-        temp_file = f.name
-
-    try:
-        prolog.consult(temp_file)
-        results = list(prolog.query(query))
-
-        return {
-            "engine": "fuzzy_swi",
-            "results": results
-        }
-
-    except PrologError as e:
-        return {
-            "engine": "fuzzy_swi",
-            "error": "prolog_runtime_error",
-            "message": str(e),
-            "program": program,
-            "query": query
-        }
-
-    finally:
-        os.remove(temp_file)
-
-
-
 
 def run_crisp_prolog(program: str=None, query: str=None):
     if not program or not query:
@@ -102,31 +152,6 @@ TOOL_DEFINITIONS = [
                     "query": {
                         "type": "string",
                         "description": "Prolog query to run, e.g., 'good_player(john).'"
-                    }
-                },
-                "required": ["program", "query"],
-                "additionalProperties": False
-            }
-        }
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "run_fuzzy_prolog",
-            "description": (
-                "Executes a fuzzy Prolog program using fuzzy_core.pl. "
-                "Returns results including truth values."
-            ),
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "program": {
-                        "type": "string",
-                        "description": "LLM-generated fuzzy Prolog rules and facts as a string."
-                    },
-                    "query": {
-                        "type": "string",
-                        "description": "Fuzzy Prolog query to run, e.g., 'good_player(john, T)'."
                     }
                 },
                 "required": ["program", "query"],
