@@ -32,33 +32,70 @@ def inference(reasoning_mode,clean_question,clean_context):
 
 
 
-    if reasoning_mode=='fuzzy':
+    if reasoning_mode == 'fuzzy':
 
         system_prompt = FUZZY_SIMPFUL_GENERATOR_PROMPT
 
-        user_content = (
-        "Context:\n"
-        f"{clean_context}\n\n"
-        "Question:\n"
-        f"{clean_question}\n"
-        "Return clean SIMPFUL code that will answer this question using fuzzy inference!"
-    )
-
-
-        response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_content}
-        ],
-        temperature=0.7
+        base_user_content = (
+            "Context:\n"
+            f"{clean_context}\n\n"
+            "Question:\n"
+            f"{clean_question}\n\n"
+            "Return ONLY executable Python code using the SIMPFUL library.\n"
+            "- No explanations\n"
+            "- No markdown\n"
+            "- Code must run as-is\n"
         )
-        code = response.choices[0].message.content.strip()
-        print("RUNNING FUZZY CODE!!\n",code)
-        result=run_fuzzy_simpful(code)
 
-        return result
-  # TODO: add retry loop here as well above      
+        
+        last_error = None
+
+        for attempt in range(1, MAX_RETRIES + 1):
+
+            if last_error:
+                user_content = (
+                    base_user_content
+                    + "\n\nThe previous code FAILED with this error:\n"
+                    + f"{last_error}\n\n"
+                    + "Fix the code and regenerate a corrected version."
+                )
+            else:
+                user_content = base_user_content
+
+            response = client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_content}
+                ],
+                temperature=0.4
+            )
+
+            code = response.choices[0].message.content.strip()
+
+            print(f"\n[ATTEMPT {attempt}] RUNNING FUZZY SIMPFUL CODE:\n")
+            print(code)
+
+            result = run_fuzzy_simpful(code)
+
+            # ---- SUCCESS PATH ----
+            if result.get("success"):
+                return result
+
+            # ---- FAILURE -> RETRY ----
+            last_error = result.get("error") or "Unknown execution error"
+            print(f"[ATTEMPT {attempt}] Failed: {last_error}")
+
+        # ---- ALL RETRIES FAILED ----
+        return {
+            "engine": "simpful",
+            "success": False,
+            "error": "generation_failed",
+            "message": "LLM failed to generate executable Simpful code after retries.",
+            "last_error": last_error
+        }
+
+
     
     else:
         system_prompt=CRISP_PROLOG_GENERATOR_PROMPT
@@ -75,7 +112,7 @@ def inference(reasoning_mode,clean_question,clean_context):
             model="gpt-4o-mini",
             messages=messages,
             tools=TOOL_DEFINITIONS,
-            temperature=0.6
+            temperature=0.9
         )
 
         msg = response.choices[0].message

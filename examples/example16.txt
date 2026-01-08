@@ -1,0 +1,54 @@
+[INFO] Reasoning mode: fuzzy
+
+[ATTEMPT 1] RUNNING FUZZY SIMPFUL CODE:
+
+from simpful import *
+
+FS = FuzzySystem()
+
+# Define fuzzy sets for left foot, right foot, height, heading ability, positioning, and technique
+S_1 = FuzzySet(function=Trapezoidal_MF(0, 0, 0.3, 0.5), term="low")
+S_2 = FuzzySet(function=Triangular_MF(0.3, 0.5, 0.7), term="medium")
+S_3 = FuzzySet(function=Trapezoidal_MF(0.5, 0.7, 1, 1), term="high")
+
+# Add linguistic variables
+FS.add_linguistic_variable("left_foot", LinguisticVariable([S_1, S_2, S_3], universe_of_discourse=[0, 1]))
+FS.add_linguistic_variable("right_foot", LinguisticVariable([S_1, S_2, S_3], universe_of_discourse=[0, 1]))
+FS.add_linguistic_variable("height", LinguisticVariable([S_1, S_2, S_3], universe_of_discourse=[0, 1]))
+FS.add_linguistic_variable("heading_ability", LinguisticVariable([S_1, S_2, S_3], universe_of_discourse=[0, 1]))
+FS.add_linguistic_variable("positioning", LinguisticVariable([S_1, S_2, S_3], universe_of_discourse=[0, 1]))
+FS.add_linguistic_variable("technique", LinguisticVariable([S_1, S_2, S_3], universe_of_discourse=[0, 1]))
+FS.add_linguistic_variable("suitability", LinguisticVariable([S_1, S_2, S_3], universe_of_discourse=[0, 1]))
+
+# Add rules
+FS.add_rules([
+    "IF (left_foot IS high) AND (right_foot IS high) AND (height IS high) AND (heading_ability IS high) AND (positioning IS medium) AND (technique IS medium) THEN (suitability IS high)",
+    "IF (left_foot IS medium) AND (right_foot IS medium) AND (height IS medium) AND (heading_ability IS medium) AND (positioning IS high) AND (technique IS high) THEN (suitability IS high)",
+    "IF (left_foot IS low) OR (right_foot IS low) OR (height IS low) OR (heading_ability IS low) OR (positioning IS low) OR (technique IS low) THEN (suitability IS low)"
+])
+
+# Set input values for Ronaldo and Lewandowski
+FS.set_variable("left_foot", 0.7)  # Ronaldo
+FS.set_variable("right_foot", 0.7)  # Ronaldo
+FS.set_variable("height", 0.7)      # Ronaldo
+FS.set_variable("heading_ability", 0.7)  # Ronaldo
+FS.set_variable("positioning", 0.6)  # Lewandowski
+FS.set_variable("technique", 0.6)    # Lewandowski
+
+# Perform inference
+results = FS.inference()
+
+# Print results
+print("Suitability for striking position:", results['suitability'])
+[INFO] Tool execution result: {'success': True, 'output': '____  __  _  _  ____  ____  _  _  __   \n / ___)(  )( \\/ )(  _ \\(  __)/ )( \\(  ) v2.12.0 \n \\___ \\ )( / \\/ \\ ) __/ ) _) ) \\/ (/ (_/\\ \n (____/(__)\\_)(_/(__)  (__)  \\____/\\____/\n\n https://github.com/aresio/simpful\n\nSuitability for striking position: 0.7743251481018384', 'error': None, 'results': None}
+
+=== FINAL SUMMARY ===
+Ronaldo is fairly well-suited for the striking position, with a suitability score of approximately 0.77, indicating he is likely a good fit for this role.
+
+
+
+
+raw_context = """Ronaldo has better left foot, right foot, height and header ability in comparison with Lewandowski, 
+he has all of that aspects slightly better, while lewandowski has better positioning and technique. Good Striker requires 
+good usage of both foot, good header ability, good positioning and technique! """
+raw_question = "Who is more suited for Striking Position in this case?"
