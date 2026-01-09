@@ -10,7 +10,7 @@ import tempfile
 import os
 
 
-def run_fuzzy_simpful(code: str, timeout: int = 10):
+def run_fuzzy_simpful(code: str, timeout: int = 19):
     """
     Executes LLM-generated Simpful Python code in a safe subprocess.
     
@@ -90,9 +90,38 @@ def run_fuzzy_simpful(code: str, timeout: int = 10):
         }
 
 
-
+##### CRISP PROLOG REASONING #####
 
 prolog = Prolog()
+
+
+# used for correct interpretation of crisp prolog results
+def normalize_prolog_result(raw_results):
+    """
+    Normalize PySwip query results into logical semantics.
+    """
+    if not raw_results:
+        return {
+            "success": False,
+            "bindings": None,
+            "explanation": "Query failed (no solutions)."
+        }
+
+    # Ground query succeeded
+    if raw_results == [{}]:
+        return {
+            "success": True,
+            "bindings": None,
+            "explanation": "Query succeeded (ground query)."
+        }
+
+    # Variable bindings exist
+    return {
+        "success": True,
+        "bindings": raw_results,
+        "explanation": "Query succeeded with variable bindings."
+    }
+
 
 def run_crisp_prolog(program: str=None, query: str=None):
     if not program or not query:
@@ -112,7 +141,7 @@ def run_crisp_prolog(program: str=None, query: str=None):
 
         return {
             "engine": "crisp_prolog",
-            "results": results
+            "results": normalize_prolog_result(results)
         }
 
     except PrologError as e:
@@ -126,6 +155,10 @@ def run_crisp_prolog(program: str=None, query: str=None):
 
     finally:
         os.remove(temp_file)
+
+
+
+
 
 
 

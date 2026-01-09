@@ -7,14 +7,8 @@ import os
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # ---- Step 0: Get user input ----
-# raw_context = input("Please give the context, describe facts: ")
-# raw_question = input("Please give the query in natural language: ")
-
-raw_context = """ It is raining very much, also it's freezing, whenever we have strong rain and low temperature electricity cut is highly likely!"""
-raw_question = "Will electricity shut down?"
-
-# raw_context= "Dimitri is Student, Giorgi is Student!"
-# raw_question="Who is student?"
+raw_context = input("Please give the context, describe facts: ")
+raw_question = input("Please give the query in natural language: ")
 
 # ---- Step 1: Rewrite text ----
 clean_context = rewrite_text(raw_context)
@@ -24,13 +18,13 @@ clean_question = rewrite_text(raw_question)
 mode = decide_reasoning_mode(clean_context, clean_question)
 print(f"[INFO] Reasoning mode: {mode}")
 
-# ---- Step 3: Generate logic code and execute ----
+# ---- Step 3: Do Inference  ----
 program_result = inference(mode, clean_question, clean_context)
 print(f"[INFO] Tool execution result: {program_result}")
 
 # ---- Step 4: Summarize results in natural language ----
 user_text = (
-    f"We generated a program from the context:\n{clean_context}\n"
+    f"We did inference from the context:\n{clean_context}\n"
     f"and the question:\n{clean_question}\n"
     f"Reasoning mode used was \n{mode}\n"
     f"The tool returned the following result:\n{program_result}\n"

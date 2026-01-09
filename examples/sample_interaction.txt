@@ -1,0 +1,10 @@
+Please give the context, describe facts: Good Person Needs to be Polite, Hardworking and Honest. Dimitri is very polite, quite hardworking and Honest person.
+Please give the query in natural language: Is Dimitri a good person based on This?
+[INFO] Reasoning mode: fuzzy
+
+[ATTEMPT 1] RUNNING FUZZY SIMPFUL CODE
+
+[INFO] Tool execution result: {'success': True, 'output': "____  __  _  _  ____  ____  _  _  __   \n / ___)(  )( \\/ )(  _ \\(  __)/ )( \\(  ) v2.12.0 \n \\___ \\ )( / \\/ \\ ) __/ ) _) ) \\/ (/ (_/\\ \n (____/(__)\\_)(_/(__)  (__)  \\____/\\____/\n\n https://github.com/aresio/simpful\n\nDimitri's goodness evaluation: 0.7743251481018384", 'error': None, 'results': None}
+
+=== FINAL SUMMARY ===
+Dimitri is likely a good person with a goodness evaluation of approximately 0.77.

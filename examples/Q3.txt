@@ -1,0 +1,18 @@
+[INFO] Reasoning mode: fuzzy
+
+[ATTEMPT 1] RUNNING FUZZY SIMPFUL CODE
+
+[INFO] Tool execution result: {'success': True, 'output': '____  __  _  _  ____  ____  _  _  __   \n / ___)(  )( \\/ )(  _ \\(  __)/ )( \\(  ) v2.12.0 \n \\___ \\ )( / \\/ \\ ) __/ ) _) ) \\/ (/ (_/\\ \n (____/(__)\\_)(_/(__)  (__)  \\____/\\____/\n\n https://github.com/aresio/simpful\n\nRecommendation: 0.8919374146760457', 'error': None, 'results': None}
+
+=== FINAL SUMMARY ===
+The person likely enjoyed the movie, with a degree of 0.89 indicating a strong positive sentiment towards it.
+
+
+
+raw_context = """ Twelve years later, Titanic creator James Cameron yet 
+again delivers a great science fiction extravaganza with the usual tropes and clichés of a 
+"good guy" who must overcome a battle with his own morals to do what's right, 
+but somehow making it all work beautifully. The characters, the musical score for every scene, 
+the beauty and uniqueness of the flora and fauna of Pandora, living forests, thundering waterfalls, nimble beasts, 
+flying dragon-birds, and the way cultures of the Na'vis is portrayed will truly keep you captivated and leave you beyond impressed."""
+raw_question = "Did Person Like the Movie based on the context he or she wrote?"
