@@ -1,0 +1,14 @@
+[INFO] Reasoning mode: fuzzy
+
+[ATTEMPT 1] RUNNING FUZZY SIMPFUL CODE
+
+[INFO] Tool execution result: {'success': True, 'output': '____  __  _  _  ____  ____  _  _  __   \n / ___)(  )( \\/ )(  _ \\(  __)/ )( \\(  ) v2.12.0 \n \\___ \\ )( / \\/ \\ ) __/ ) _) ) \\/ (/ (_/\\ \n (____/(__)\\_)(_/(__)  (__)  \\____/\\____/\n\n https://github.com/aresio/simpful\n\nHiring Decision: 0.8919374146760457', 'error': None, 'results': None}
+
+=== FINAL SUMMARY ===
+Pinterest is very likely to hire Shota, with a hiring likelihood of approximately 0.89.
+
+
+raw_context = """To work at Pinterest, Employer requires you to be intelligent, have good past experience, good math knowledge
+and good programming skills. Shota Worked at google and had AI start-up, he studied Math and Computer Science, in High school he was 
+participating and winning math olympiads."""
+raw_question = "Based on This, Will Pinterest Hire Shota?"

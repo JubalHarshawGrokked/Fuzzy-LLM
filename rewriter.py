@@ -13,7 +13,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 def rewrite_text(user_text: str) -> str:
     """
     Rewrites arbitrary user input text into clearer, more precise natural language.
-    This is Step (1) of the Logic-LLM pipeline.
+    This is Step (1) of the Fuzzy-LLM pipeline.
     """
 
     system_prompt = REWRITER_PROMPT
@@ -43,7 +43,7 @@ def decide_reasoning_mode(clean_context: str, clean_question: str) -> str:
         f"{clean_context}\n\n"
         "Question:\n"
         f"{clean_question}\n"
-        "Return only one of of three: 'crisp', 'fuzzy' or 'no'; return only those string! nothing additional!"
+        "Return only one of of three: 'crisp', 'fuzzy' or 'no'; return only those string! nothing additional! Choose fuzzy more often, Since questions often involve degrees!"
     )
 
 
@@ -54,7 +54,7 @@ def decide_reasoning_mode(clean_context: str, clean_question: str) -> str:
             {"role": "user", "content": user_content}
         ],
         text_format=ReasoningModeOutput,
-        temperature=0.65
+        temperature=0.7
     )
 
     return response.output_parsed.reasoning_mode

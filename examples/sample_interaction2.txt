@@ -1,0 +1,15 @@
+Please give the context, describe facts: In Triangle ABC, Angle A is 120 Degrees, Angle B is 30 Degrees.
+Please give the query in natural language: What is Angle C equal to Based on this?
+[INFO] Reasoning mode: no
+[INFO] Tool execution result: In a triangle, the sum of all interior angles is always 180 degrees. Given that Angle A measures 120 degrees and Angle B measures 30 degrees, we can find Angle C as follows:
+
+1. Calculate the sum of Angles A and B:
+   \( 120^\circ + 30^\circ = 150^\circ \)
+
+2. Subtract this sum from 180 degrees to find Angle C:
+   \( 180^\circ - 150^\circ = 30^\circ \)
+
+Thus, the value of Angle C is 30 degrees.
+
+=== FINAL SUMMARY ===
+The value of Angle C is 30 degrees.

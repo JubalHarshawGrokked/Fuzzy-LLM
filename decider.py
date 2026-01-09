@@ -31,7 +31,12 @@ def inference(reasoning_mode,clean_question,clean_context):
 
 
 
-
+    # Combining 2 tools into single prompt, made LLM often hallucinate, that's why after decision of reasoning mode we act similarly
+    # for fuzzy and 'no' cases, we call external tools in those cases, but not through LLM. 
+    # during those steps we incorporate: code execution + Structured output for decision making + result interpretation by LLM 
+    # I wanted to still leave tool calling, that's why for crisp reasoning decision we still use tool calling, however in this
+    # case LLM has only 1 tool and smaller system prompt, in this way we avoid hallucination, which was caused by large system prompt
+    # since for simpful I included some examples of code in system prompt and also 2 tool decision making was also harder. 
     if reasoning_mode == 'fuzzy':
 
         system_prompt = FUZZY_SIMPFUL_GENERATOR_PROMPT
@@ -73,8 +78,8 @@ def inference(reasoning_mode,clean_question,clean_context):
 
             code = response.choices[0].message.content.strip()
 
-            print(f"\n[ATTEMPT {attempt}] RUNNING FUZZY SIMPFUL CODE:\n")
-            print(code)
+            print(f"\n[ATTEMPT {attempt}] RUNNING FUZZY SIMPFUL CODE\n")
+           # print(code)
 
             result = run_fuzzy_simpful(code)
 
@@ -175,5 +180,5 @@ def inference(reasoning_mode,clean_question,clean_context):
         "message": "Failed to generate valid Prolog after multiple attempts."
     }
 
-            # ---- Tool calls ----
+            
    

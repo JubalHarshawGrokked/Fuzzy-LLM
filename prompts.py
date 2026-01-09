@@ -19,7 +19,7 @@ REWRITER_PROMPT=(
 REASONING_DECIDER_PROMPT = """
 You are a reasoning mode decider for a inference system. Try to choose fuzzy more often, since it's more broad reasoning domain, also
 if question involves comparisons, degree based values, numbers, choosing fuzzy is more suitable. choose crisp if facts can be encoded
-as logical true false predicates.
+as logical true false predicates. If mathematics is involved choose 'no' and let LLM solve math question.
 
 Your task is to decide which reasoning mode should be used for a given context and question:
 
@@ -89,7 +89,7 @@ Inputs you receive:
 - clean_context: the context that user gave us rewritten in better formulated natural language.
 - tool_results: the structured results from the Prolog engine:
     - For crisp logic: a list of dictionaries with variable bindings
-    - For fuzzy logic: a list of dictionaries with variable bindings including truth degrees (numbers between 0 and 1)
+    - For fuzzy logic: a list of dictionaries with variable bindings including truth degrees (numbers between 0 and 1 usually, but can be higher than 1)
 
 Rules:
 1. Generate a **concise and clear answer** in natural language.

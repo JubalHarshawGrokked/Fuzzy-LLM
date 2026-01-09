@@ -1,0 +1,14 @@
+[INFO] Reasoning mode: crisp
+
+=== LOGIC GENERATION ATTEMPT 1 ===
+Calling tool: run_crisp_prolog
+Args: {'program': 'human(socrates).\nmortal(X) :- human(X).', 'query': 'mortal(socrates).'}
+Execution successful.
+[INFO] Tool execution result: {'engine': 'crisp_prolog', 'results': {'success': True, 'bindings': None, 'explanation': 'Query succeeded (ground query).'}}
+
+=== FINAL SUMMARY ===
+Yes, Socrates is mortal based on the provided information.
+
+
+raw_context = """ Every Human is Mortal, Socrates is Human."""
+raw_question = "Is Socrates Mortal Based on this?"
