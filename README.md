@@ -39,6 +39,19 @@ source venv/bin/activate
 # Install dependencies
 pip install -r requirements.txt
 ```
+### 3. OpenAI API setup
+
+This project uses the OpenAI API. You must set your OpenAI API key as an environment variable named **`OPENAI_API_KEY`** before running the program.
+
+#### Windows (Command Prompt)
+```bat
+setx OPENAI_API_KEY your_api_key_here
+```
+#### Linux
+```bat
+export OPENAI_API_KEY="your_api_key_here"
+```
+
 
 ## Running the Program
 
