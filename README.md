@@ -29,13 +29,19 @@ Create a virtual environment and install dependencies:
 ```bash
 # Create virtual environment
 python -m venv venv
-
-# Activate virtual environment
+```
+Activate virtual environment
+```bash
 # On Windows:
 venv\Scripts\activate
+```
+For macOS/Linux systems:
+```bash
 # On macOS/Linux:
 source venv/bin/activate
-
+```
+Then install dependencies:
+```bash
 # Install dependencies
 pip install -r requirements.txt
 ```
@@ -55,9 +61,11 @@ export OPENAI_API_KEY="your_api_key_here"
 
 ## Running the Program
 
-Simply execute the main logic file:
+Simply execute the main logic file from **src** directory (Make Sure virtual environment where
+you installed the dependencies is activated.):
 
 ```bash
+cd src
 python main_logic.py
 ```
 
@@ -162,16 +170,17 @@ Lower temperature values are used throughout the system to:
 
 ## Examples
 
-See the `examples/` directory for sample queries demonstrating:
+See the `examples/` directory for sample queries demonstrating (each example is presented with 
+corresponding raw_context input and raw_question input):
 - Fuzzy reasoning scenarios
 - Crisp logic applications
-- Cases where no formal reasoning is preferred (e.g., mathematical questions)
+- Cases where no formal reasoning is preferred (e.g., arithmetical questions)
 
 ## Project Structure
 
 ```
 .
-├── main_logic.py          # Entry point
+├── src/         # Python Source code 
 ├── requirements.txt       # Python dependencies
 ├── examples/             # Example queries and outputs
 ```
@@ -179,4 +188,4 @@ See the `examples/` directory for sample queries demonstrating:
 
 ---
 
-**Note:** This system demonstrates a hybrid approach to AI reasoning, combining symbolic logic (Prolog), fuzzy inference (Simpful), and standard LLM (OpenAI) in a unified framework.
+**Note:** This system demonstrates a hybrid approach to AI reasoning, combining symbolic logic (Prolog), fuzzy inference (Simpful), and standard LLM (OpenAI) in a unified framework. If you encounter any issues, please feel free to raise an issue directly.
