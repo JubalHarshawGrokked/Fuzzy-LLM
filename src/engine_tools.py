@@ -1,8 +1,6 @@
 from pyswip import Prolog
-import tempfile
 import os
 from pyswip.prolog import PrologError
-from typing import List, Dict
 import re
 import subprocess
 import sys
@@ -10,7 +8,7 @@ import tempfile
 import os
 
 
-def run_fuzzy_simpful(code: str, timeout: int = 19):
+def run_fuzzy_simpful(code: str, timeout: int = 23):
     """
     Executes LLM-generated Simpful Python code in a safe subprocess.
     
