@@ -176,6 +176,38 @@ corresponding raw_context input and raw_question input):
 - Crisp logic applications
 - Cases where no formal reasoning is preferred (e.g., arithmetical questions)
 
+## LLM Judge
+
+To evaluate the system's performance on a test dataset using LLM as a judge:
+```bash
+cd src
+python evaluate.py ../evaluation/problems.json
+```
+
+This will:
+- Process each test case through the fuzzy reasoning pipeline
+- Compare generated answers against predefined expected answers using an LLM judge
+- Output evaluation scores (1 for pass, 0 for fail) as structured output
+- Generate a results JSON file and visualization PNG showing success vs failure rates
+
+### Test Case Format
+
+The JSON file should contain an array of test cases:
+```json
+[
+  {
+    "id": "test_1",
+    "raw_context": "Context text...",
+    "raw_question": "Question text...",
+    "answer": "Expected answer..."
+  }
+]
+```
+### Judge Architecture
+
+![Judge Architecture](judge_architecture.png)
+
+
 ## Project Structure
 
 ```
@@ -183,6 +215,8 @@ corresponding raw_context input and raw_question input):
 ├── src/         # Python Source code 
 ├── requirements.txt       # Python dependencies
 ├── examples/             # Example queries and outputs
+├── evaluation/ # problems json dataset, also evaluate.py stores the results here. 
+
 ```
 
 

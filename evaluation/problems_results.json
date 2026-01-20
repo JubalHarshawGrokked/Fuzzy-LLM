@@ -1,0 +1,130 @@
+{
+  "summary": {
+    "total": 20,
+    "passed": 18,
+    "failed": 2,
+    "accuracy": 90.0
+  },
+  "results": [
+    {
+      "id": "test_1",
+      "generated_summary": "No conclusion could be reached regarding who is older, as the inference did not yield any results.",
+      "expected_answer": "Mary is older than John.",
+      "score": 0
+    },
+    {
+      "id": "test_2",
+      "generated_summary": "The total cost of purchasing one apple and one orange is $5.",
+      "expected_answer": "The total cost is $5.",
+      "score": 1
+    },
+    {
+      "id": "test_3",
+      "generated_summary": "There is a high likelihood of an electricity shutdown due to the strong storm with heavy snowfall, with a risk degree of approximately 0.88.",
+      "expected_answer": "Electricity will shut down very likely.",
+      "score": 1
+    },
+    {
+      "id": "test_4",
+      "generated_summary": "The car travels a distance of 120 kilometers.",
+      "expected_answer": "The car travels 120 kilometers.",
+      "score": 1
+    },
+    {
+      "id": "test_5",
+      "generated_summary": "Alice has 6 candies remaining.",
+      "expected_answer": "Alice has 6 candies left.",
+      "score": 1
+    },
+    {
+      "id": "test_6",
+      "generated_summary": "Yes, the ground is wet.",
+      "expected_answer": "Yes, the ground is wet.",
+      "score": 1
+    },
+    {
+      "id": "test_7",
+      "generated_summary": "The meeting concludes at 11 AM.",
+      "expected_answer": "The meeting ends at 11 AM.",
+      "score": 1
+    },
+    {
+      "id": "test_8",
+      "generated_summary": "The total number of balls in the box is 8.",
+      "expected_answer": "There are 8 balls in total.",
+      "score": 1
+    },
+    {
+      "id": "test_9",
+      "generated_summary": "No solution was found to identify the tallest person based on the provided context.",
+      "expected_answer": "Tom is the tallest.",
+      "score": 0
+    },
+    {
+      "id": "test_10",
+      "generated_summary": "There are 3 hours of battery remaining.",
+      "expected_answer": "3 hours of battery remain.",
+      "score": 1
+    },
+    {
+      "id": "test_11",
+      "generated_summary": "There are 5 girls in the class.",
+      "expected_answer": "There are 5 girls in the class.",
+      "score": 1
+    },
+    {
+      "id": "test_12",
+      "generated_summary": "Yes, the water will freeze.",
+      "expected_answer": "Yes, the water will freeze.",
+      "score": 1
+    },
+    {
+      "id": "test_13",
+      "generated_summary": "Mike pays a total of $24 for the three movie tickets he purchased.",
+      "expected_answer": "Mike pays $24 in total.",
+      "score": 1
+    },
+    {
+      "id": "test_14",
+      "generated_summary": "The store's hours of operation are from 10:00 AM to 6:00 PM.",
+      "expected_answer": "The store is open for 8 hours.",
+      "score": 1
+    },
+    {
+      "id": "test_15",
+      "generated_summary": "Sara read a total of 35 pages.",
+      "expected_answer": "Sara read 35 pages in total.",
+      "score": 1
+    },
+    {
+      "id": "test_16",
+      "generated_summary": "Yes, the room is dark.",
+      "expected_answer": "Yes, the room is dark.",
+      "score": 1
+    },
+    {
+      "id": "test_17",
+      "generated_summary": "The area of the rectangle is 50 square centimeters.",
+      "expected_answer": "The area of the rectangle is 50 square centimeters.",
+      "score": 1
+    },
+    {
+      "id": "test_18",
+      "generated_summary": "David has $32 remaining after spending $18 on food.",
+      "expected_answer": "David has $32 left.",
+      "score": 1
+    },
+    {
+      "id": "test_19",
+      "generated_summary": "No, the device is not capable of turning on.",
+      "expected_answer": "No, the device cannot turn on.",
+      "score": 1
+    },
+    {
+      "id": "test_20",
+      "generated_summary": "The duration of the train journey is 4 hours.",
+      "expected_answer": "The train journey lasts 4 hours.",
+      "score": 1
+    }
+  ]
+}

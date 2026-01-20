@@ -1,0 +1,122 @@
+[
+  {
+    "id": "test_1",
+    "raw_context": "John is 25 years old. Mary is 30.",
+    "raw_question": "Who is older?",
+    "answer": "Mary is older than John."
+  },
+  {
+    "id": "test_2",
+    "raw_context": "The apple costs $2. The orange costs $3.",
+    "raw_question": "What is the total cost if we purchase 1 apple and 1 orange?",
+    "answer": "The total cost is $5."
+  },
+  {
+    "id": "test_3",
+    "raw_context": "When there is snow and storm electricity shuts down. Today is a strong storm and very snowy weather.",
+    "raw_question": "Based on this, will electricity shut down?",
+    "answer": "Electricity will shut down very likely."
+  },
+  {
+    "id": "test_4",
+    "raw_context": "A car travels at 60 km/h for 2 hours.",
+    "raw_question": "How far does the car travel?",
+    "answer": "The car travels 120 kilometers."
+  },
+  {
+    "id": "test_5",
+    "raw_context": "Alice has 10 candies. She gives 4 candies to Bob.",
+    "raw_question": "How many candies does Alice have left?",
+    "answer": "Alice has 6 candies left."
+  },
+  {
+    "id": "test_6",
+    "raw_context": "If it rains, the ground becomes wet. It is raining now.",
+    "raw_question": "Is the ground wet?",
+    "answer": "Yes, the ground is wet."
+  },
+  {
+    "id": "test_7",
+    "raw_context": "The meeting starts at 9 AM and lasts for 2 hours.",
+    "raw_question": "At what time does the meeting end?",
+    "answer": "The meeting ends at 11 AM."
+  },
+  {
+    "id": "test_8",
+    "raw_context": "A box contains 5 red balls and 3 blue balls.",
+    "raw_question": "How many balls are in the box in total?",
+    "answer": "There are 8 balls in total."
+  },
+  {
+    "id": "test_9",
+    "raw_context": "Tom is taller than Jerry. Jerry is taller than Sam.",
+    "raw_question": "Who is the tallest?",
+    "answer": "Tom is the tallest."
+  },
+  {
+    "id": "test_10",
+    "raw_context": "A laptop battery lasts 5 hours. It has already been used for 2 hours.",
+    "raw_question": "How many hours of battery remain?",
+    "answer": "3 hours of battery remain."
+  },
+  {
+    "id": "test_11",
+    "raw_context": "There are 12 students in a class. 7 are boys.",
+    "raw_question": "How many girls are in the class?",
+    "answer": "There are 5 girls in the class."
+  },
+  {
+    "id": "test_12",
+    "raw_context": "If the temperature is below 0°C, water freezes. The temperature is -5°C.",
+    "raw_question": "Will the water freeze?",
+    "answer": "Yes, the water will freeze."
+  },
+  {
+    "id": "test_13",
+    "raw_context": "A movie ticket costs $8. Mike buys 3 tickets.",
+    "raw_question": "How much does Mike pay in total?",
+    "answer": "Mike pays $24 in total."
+  },
+  {
+    "id": "test_14",
+    "raw_context": "The store opens at 10 AM and closes at 6 PM.",
+    "raw_question": "How many hours is the store open?",
+    "answer": "The store is open for 8 hours."
+  },
+  {
+    "id": "test_15",
+    "raw_context": "Sara read 15 pages on Monday and 20 pages on Tuesday.",
+    "raw_question": "How many pages did Sara read in total?",
+    "answer": "Sara read 35 pages in total."
+  },
+  {
+    "id": "test_16",
+    "raw_context": "If a light is turned off, the room becomes dark. The light is turned off.",
+    "raw_question": "Is the room dark?",
+    "answer": "Yes, the room is dark."
+  },
+  {
+    "id": "test_17",
+    "raw_context": "A rectangle has a length of 10 cm and a width of 5 cm.",
+    "raw_question": "What is the area of the rectangle?",
+    "answer": "The area of the rectangle is 50 square centimeters."
+  },
+  {
+    "id": "test_18",
+    "raw_context": "David has $50. He spends $18 on food.",
+    "raw_question": "How much money does David have left?",
+    "answer": "David has $32 left."
+  },
+  {
+    "id": "test_19",
+    "raw_context": "If a device has no power, it cannot turn on. The device has no power.",
+    "raw_question": "Can the device turn on?",
+    "answer": "No, the device cannot turn on."
+  },
+  {
+    "id": "test_20",
+    "raw_context": "A train leaves at 3 PM and arrives at 7 PM.",
+    "raw_question": "How long is the train journey?",
+    "answer": "The train journey lasts 4 hours."
+  }
+]
