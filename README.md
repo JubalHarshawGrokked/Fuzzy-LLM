@@ -205,7 +205,7 @@ The JSON file should contain an array of test cases:
 ```
 ### Judge Architecture
 
-![Judge Architecture](judge_architecture.png)
+![Judge Architecture](judge.png)
 
 
 ## Project Structure
