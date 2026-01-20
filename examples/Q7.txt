@@ -1,12 +1,23 @@
 [INFO] Reasoning mode: no
-[INFO] Tool execution result: In triangle ABC, the sum of the interior angles is always 180 degrees. Therefore, to find the measure of angle C, we can use the following calculation:
+[INFO] Tool execution result: In a triangle, the sum of the interior angles is always 180 degrees. In triangle ABC, we have:
 
-Angle C = 180 degrees - Angle A - Angle B  
-Angle C = 180 degrees - 60 degrees - 50 degrees  
-Angle C = 180 degrees - 110 degrees  
+- Angle A = 60 degrees
+- Angle B = 50 degrees
+
+To find Angle C, we can use the formula:
+
+Angle C = 180 degrees - (Angle A + Angle B)
+
+Substituting the given values:
+
+Angle C = 180 degrees - (60 degrees + 50 degrees)
+Angle C = 180 degrees - 110 degrees
 Angle C = 70 degrees
 
-Thus, the measurement of angle C is 70 degrees.
+Therefore, the measure of Angle C is 70 degrees.
 
 === FINAL SUMMARY ===
-The measurement of angle C is 70 degrees.
+The measure of Angle C is 70 degrees.
+
+raw_context="""In triangle ABC, Angle A is 60 degrees, angle B is 50 degrees"""     
+raw_question= "What is Angle C based on this?"
