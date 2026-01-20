@@ -2,7 +2,15 @@
 
 [ATTEMPT 1] RUNNING FUZZY SIMPFUL CODE
 
-[INFO] Tool execution result: {'success': True, 'output': '____  __  _  _  ____  ____  _  _  __   \n / ___)(  )( \\/ )(  _ \\(  __)/ )( \\(  ) v2.12.0 \n \\___ \\ )( / \\/ \\ ) __/ ) _) ) \\/ (/ (_/\\ \n (____/(__)\\_)(_/(__)  (__)  \\____/\\____/\n\n https://github.com/aresio/simpful\n\nThe youngest is: 0.858064388047626', 'error': None, 'results': None}
+[ATTEMPT 1] Failed: KeyError: 'result'
+
+[ATTEMPT 2] RUNNING FUZZY SIMPFUL CODE
+
+[INFO] Tool execution result: {'success': True, 'output': '____  __  _  _  ____  ____  _  _  __   \n / ___)(  )( \\/ )(  _ \\(  __)/ )( \\( 
+ ) v2.12.0 \n \\___ \\ )( / \\/ \\ ) __/ ) _) ) \\/ (/ (_/\\ \n (____/(__)\\_)(_/(__)  (__)  \\____/\\____/\n\n https://github.com/aresio/simpful\n\nLeadership Evaluation Result: 0.7960885579099239', 'error': None, 'results': None}
 
 === FINAL SUMMARY ===
-The youngest among the group is likely Dimitri, with a degree of 0.858, indicating a strong likelihood that he is the youngest.
+Rome likely had a strong leader with a degree of 0.8, indicating a high level of confidence in this assessment.
+
+raw_context="""Every Empire had strong army and a leader. Rome was Empire."""
+raw_question="did Rome have a strong leader based on this logic?"
