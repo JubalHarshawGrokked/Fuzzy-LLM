@@ -226,3 +226,18 @@ Start directly with: from simpful import ...
 
 Your code will be executed as-is, so it MUST work perfectly.
 """
+
+
+EVALUATION_PROMPT = """You are an expert evaluator. You will be given:
+1. A generated summary from our system
+2. The expected correct answer
+
+Your task is to determine if the generated summary correctly answers the question 
+(not necessarily word-for-word).
+
+Return 1 if the generated summary is close to the expected answer, if it involves additional information 
+it's no problem, but if it captures the idea that's enough.
+Return 0 if the generated summary is incorrect, contradicts the expected answer, or misses key information.
+
+Be fair in your evaluation, however it isn't necessary to have exactly same answer,
+if answer is in essence close the the expected answer still return 1"""
